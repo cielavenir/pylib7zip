@@ -65,8 +65,8 @@ else:
 	def free_propvariant(void_p):
 		#TODO make smarter
 		pvar = ffi.cast('PROPVARIANT*', void_p)
-		if pvar.vt == wintypes.VT_BSTR and pvar.bstrVal != ffi.NULL:
-			C.free(pvar.bstrVal)
+		if pvar.vt == wintypes.VARTYPE.VT_BSTR and pvar.bstrVal != ffi.NULL:
+			C.free( ffi.cast('char*',pvar.bstrVal)-4 )
 
 		C.memset(pvar, 0, ffi.sizeof('PROPVARIANT'))
 		
