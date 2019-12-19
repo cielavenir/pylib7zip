@@ -136,9 +136,8 @@ class FormatProps(IntEnum):
 	kAddExtension = 3
 	kUpdate = 4
 	kKeepName = 5
-	kStartSignature = 6
-	kFinishSignature = 7
-	kAssociate = 8
+	kSignature = 6
+	kMultiSignature = 7
 
 class MethodProps(IntEnum):
 	kID = 0

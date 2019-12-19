@@ -143,16 +143,22 @@ def get_format_info():
 	assert num_formats != ffi.NULL
 	log.debug('GetNumberOfFormats() == %d', num_formats[0])
 
-	return {
-		get_string_prop(i, FormatProps.kName, dll7z.GetHandlerProperty2):
-		Format(
+	retdict = {}
+	for i in range(num_formats[0]):
+		start_signature = get_bytes_prop(i, FormatProps.kSignature, dll7z.GetHandlerProperty2)
+		if start_signature is None:
+			multi_signature = get_bytes_prop(i, FormatProps.kMultiSignature, dll7z.GetHandlerProperty2)
+			if multi_signature is not None:
+				size = multi_signature[0]
+				start_signature = multi_signature[1:size+1]
+
+		retdict[get_string_prop(i, FormatProps.kName, dll7z.GetHandlerProperty2)] = Format(
 			classid=get_classid(i, FormatProps.kClassID, dll7z.GetHandlerProperty2),
 			extensions=tuple(get_string_prop(i, FormatProps.kExtension, dll7z.GetHandlerProperty2).split()),
 			index=i,
-			start_signature=get_bytes_prop(i, FormatProps.kStartSignature, dll7z.GetHandlerProperty2),
+			start_signature=start_signature,
 		)
-		for i in range(num_formats[0])
-	}
+	return retdict
 
 Method = namedtuple(
 	'Method',
