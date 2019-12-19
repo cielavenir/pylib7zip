@@ -102,7 +102,7 @@ class Archive:
 	
 	def close(self):
 		log.debug('Archive.close()')
-		if self.archive or self.archive.vtable or self.archive.vtable.Close == ffi.NULL:
+		if self.archive == ffi.NULL or self.archive.vtable == ffi.NULL or self.archive.vtable.Close == ffi.NULL:
 			log.warn('close failed, NULLs')
 			return
 		RNOK(self.archive.vtable.Close(self.archive))
