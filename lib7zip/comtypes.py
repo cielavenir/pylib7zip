@@ -10,6 +10,7 @@ CDEF_IUnknown = """
 """
 
 if 'win' not in sys.platform:
+	# https://forum.lazarus.freepascal.org/index.php/topic,42701.msg298820.html#msg298820
 	CDEF_IUnknown += """
 	void* Reserved1;
 	void* Reserved2;
