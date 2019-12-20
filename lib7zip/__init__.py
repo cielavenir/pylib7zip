@@ -70,8 +70,8 @@ else:
 
 		C.memset(pvar, 0, ffi.sizeof('PROPVARIANT'))
 		
-	suffixes = '', '7z.so', 'p7zip/7z.so'
-	prefixes = ['/lib', '/usr/lib']
+	suffixes = '7z.so', 'p7zip/7z.so'
+	prefixes = ['/lib', '/usr/lib', '/usr/local/lib', '/usr/libexec', '/home/linuxbrew/.linuxbrew/lib', '/opt/local/lib', '/sw/lib']
 	for suffix in suffixes:
 		for prefix in prefixes:
 			dll_paths.append(os.path.join(prefix, suffix))
