@@ -190,14 +190,10 @@ class ArchiveItem():
 
 		self.callback = callback = ArchiveExtractToStreamCallback(file, self.index, password)
 		self.cb_inst = callback_inst = callback.instances[py7ziptypes.IID_IArchiveExtractCallback]
-		#indices = ffi.new('const uint32_t indices[]', [self.index])
-		
-		#indices_p = C.calloc(1, ffi.sizeof('uint32_t'))
-		#indices = ffi.cast('uint32_t*', indices_p)
-		#indices[0] = self.index
+		indices = ffi.new('uint32_t indices[1]', [self.index])
 		
 		log.debug('starting extract of %s!', self.path)
-		RNOK(self.archive.archive.vtable.Extract(self.archive.archive, ffi.NULL, 0xFFFFFFFF, 0, callback_inst))
+		RNOK(self.archive.archive.vtable.Extract(self.archive.archive, indices, 1, 0, callback_inst))
 		log.debug('finished extract')
 		#C.free(indices_p)
 	
