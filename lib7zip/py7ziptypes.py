@@ -326,7 +326,7 @@ class OperationResult(Enum):
 	kDataError = 2
 	kCRCError = 3
 
-class AskMode(Enum):
+class AskMode(IntEnum):
 	kExtract = 0
 	kTest = 1
 	kSkip = 2
