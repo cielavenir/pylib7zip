@@ -40,9 +40,8 @@ class IUnknownImpl:
 				try:
 					method = self.methods[name]
 				except KeyError:
-					if name!='Reserved1' and name!='Reserved2':
-						ctype = ffi.typeof(getattr(vtable, name))
-						self.methods[name] = method = ffi.callback(ctype, getattr(self, name))
+					ctype = ffi.typeof(getattr(vtable, name))
+					self.methods[name] = method = ffi.callback(ctype, getattr(self, name))
 				
 				setattr(vtable, name, method)
 			self.vtables.append(vtable)
