@@ -22,9 +22,8 @@ This is beta software and may crash if used in an unusual (or even a usual) way.
 Dependencies
 ------------
 
-    * 7z.so/7z.dll from http://7zip.org or p7zip on \*Nix
+    * 7z.so/7z.dll from http://7zip.org (\*Nix requires v23+)
     * CFFI_
-    * enum34_
 
 How To Use
 ----------
@@ -67,4 +66,3 @@ This code is licensed under the BSD 2-clause license.
 7-Zip is licensed under the LGPL with the exception of the code handling rar compression.
 
 .. _CFFI: https://cffi.readthedocs.org/en/release-0.6/
-.. _enum34: https://pypi.python.org/pypi/enum34
