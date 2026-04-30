@@ -84,7 +84,6 @@ def test_extract_dir(path, tmp_dir):
 	with open(os.path.join(tmp_dir, 'hello.txt'), 'rb') as f:
 		assert f.read() == b'Hello World!\n'
 
-@pytest.mark.xfail(run=False)
 def test_extract_with_pass():
 	with Archive('tests/simple_crypt.7z') as archive:
 		stream = io.BytesIO()

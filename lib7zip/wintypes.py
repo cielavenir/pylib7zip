@@ -40,6 +40,14 @@ typedef struct {
 typedef uint32_t HRESULT;
 
 HRESULT PropVariantClear(PROPVARIANT *pvar);
+
+typedef wchar_t OLECHAR;
+typedef OLECHAR* BSTR;
+typedef unsigned int UINT;
+
+BSTR SysAllocString(const OLECHAR*);
+void SysFreeString(BSTR);
+UINT SysStringLen(BSTR);
 """
 
 #HRESULT values

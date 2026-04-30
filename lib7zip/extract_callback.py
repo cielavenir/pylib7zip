@@ -5,7 +5,7 @@ from .py7ziptypes import IID_ICryptoGetTextPassword, IID_IArchiveExtractCallback
 	OperationResult, AskMode
 
 from .wintypes import HRESULT
-from . import log, ffi, C, py7ziptypes
+from . import log, ffi, C, py7ziptypes, sys_alloc_string
 from .simplecom import IUnknownImpl
 from .stream import FileOutStream
 
@@ -75,17 +75,15 @@ class ArchiveExtractCallback(IUnknownImpl):
 		log.debug('CryptoGetTextPassword me=%r password=%r%r', me, ffi.string(self.password), self.password)
 		assert password[0] == ffi.NULL
 		#log.debug('passowrd?=%s', ffi.string(password[0]))
-		#password = ffi.cast('wchar_t**', password)
-		password[0] = self.password
-		#password[0] = ffi.NULL
+		password[0] = sys_alloc_string(self.password)
 		log.debug('CryptoGetTextPassword returning, password=%s', ffi.string(password[0]))
 		return HRESULT.S_OK.value
-		#return len(self.password)
 
 	def CryptoGetTextPassword2(self, me, isdefined, password):
 		log.debug('CryptoGetTextPassword2 me=%r password=%r%r', me, ffi.string(self.password), self.password)
 		isdefined[0] = bool(self.password)
-		password[0] = self.password
+		if isdefined[0]:
+		    password[0] = sys_alloc_string(self.password)
 		log.debug('CryptoGetTextPassword returning, password=%s', ffi.string(password[0]))
 		return HRESULT.S_OK.value
 

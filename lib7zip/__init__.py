@@ -43,7 +43,7 @@ void* calloc(size_t, size_t);
 void* malloc(size_t);
 void* memset(void*, int, size_t);
 void free(void*);
-
+size_t wcslen(wchar_t*);
 
 """)
 
@@ -61,15 +61,33 @@ if 'win' in sys.platform:
 
 	ole32 = ffi.dlopen('ole32')
 	free_propvariant = lambda x: ole32.PropVariantClear(x)
+	sys_alloc_string = lambda x: ole32.SysAllocString(x)
+	sys_free_string = lambda x: ole32.SysFreeString(x)
+	sys_string_len = lambda x: ole32.SysStringLen(x)
 else:
 	def free_propvariant(void_p):
 		#TODO make smarter
 		pvar = ffi.cast('PROPVARIANT*', void_p)
 		if pvar.vt == wintypes.VARTYPE.VT_BSTR and pvar.bstrVal != ffi.NULL:
-			C.free( ffi.cast('char*',pvar.bstrVal)-4 )
+			sys_free_string(pvar.bstrVal)
 
 		C.memset(pvar, 0, ffi.sizeof('PROPVARIANT'))
-		
+
+	def sys_alloc_string(wcsstr):
+		length = C.wcslen(wcsstr)
+		buffer = C.calloc(1, 4 + ffi.sizeof('wchar_t') * length)
+		lengthBuffer = ffi.cast('unsigned int*', buffer)
+		lengthBuffer[0] = length
+		stringStart = ffi.cast('wchar_t*', ffi.cast('char*', buffer) + 4)
+		stringStart[0:length] = wcsstr[0:length]
+		return stringStart
+
+	def sys_free_string(bstr):
+		C.free(ffi.cast('char*', bstr) - 4)
+
+	def sys_string_len(bstr):
+		return ffi.cast('unsigned int*', ffi.cast('char*', bstr) - 4)[0]
+
 	suffixes = '7z.so', '7zip/7z.so'
 	prefixes = ['/lib', '/usr/lib', '/usr/local/lib', '/usr/libexec', '/home/linuxbrew/.linuxbrew/lib', '/opt/local/lib', '/sw/lib']
 	for suffix in suffixes:
