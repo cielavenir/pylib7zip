@@ -30,7 +30,7 @@ COMPLEX_MD = {
 	J('complex','articles','the indefinate article.txt'): IX(False, 0xE8B7BE43, 'a'),
 	J('complex','goodbye.txt'): IX(False, 0x3078A778, 'Goodbye!'),
 	J('complex','hello.txt'): IX(False, 0x9D2ACC56, 'Hello!'),
-	#J('complex','unicode.txt'): IX(False, 0x226F311C, 'Úñï¢ðÐê †ê§†!'),
+	J('complex','unicode.txt'): IX(False, 0x226F311C, '\uFEFFÚñï¢ðÐê †ê§†!'),  # FEFF -> BOM
 	J('complex','empty.txt'): IX(False, None, ''),
 	J('complex','empty'): IX(True),
 	J('complex'): IX(True),
