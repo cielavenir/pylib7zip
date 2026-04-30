@@ -91,9 +91,8 @@ def test_extract_with_pass():
 		archive[0].extract(stream, password='password')
 		assert stream.getvalue() == b'Hello World!\n'
 
-@pytest.mark.xfail(run=False)
 def test_extract_with_pass_dir(tmp_dir):
-	with Archive('tests/simple crypt.7z', password='password') as archive:
+	with Archive('tests/simple_crypt.7z', password='password') as archive:
 		archive.extract(tmp_dir)
 
 	with open(os.path.join(tmp_dir, 'hello.txt'), 'rb') as f:
@@ -101,7 +100,7 @@ def test_extract_with_pass_dir(tmp_dir):
 
 @pytest.mark.xfail(run=False)
 def test_extract_badpass():
-	with Archive('tests/simple crypt.7z') as archive:
+	with Archive('tests/simple_crypt.7z') as archive:
 		stream = io.BytesIO()
 		with pytest.raises(Exception):  # TODO catch correct exception
 			archive[0].extract(stream, password='notthepass')
