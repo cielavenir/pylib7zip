@@ -147,6 +147,7 @@ def get_format_info():
 	for i in range(num_formats[0]):
 		start_signature = get_bytes_prop(i, FormatProps.kSignature, dll7z.GetHandlerProperty2)
 		if start_signature is None:
+			# for now use multi_signature[0] as start_signature
 			multi_signature = get_bytes_prop(i, FormatProps.kMultiSignature, dll7z.GetHandlerProperty2)
 			if multi_signature is not None:
 				size = multi_signature[0]
