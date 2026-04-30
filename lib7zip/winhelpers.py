@@ -114,10 +114,9 @@ def get_prop_val(fn, forcetype=None, checktype=None):
 		return guidp2uu(pvar.puuid)
 	elif vt == VARTYPE.VT_BSTR:
 		return ffi.string(pvar.bstrVal)
-	elif False: #vt == VARTYPE.VT_FILETIME:
-		#FIXME This should work but it totally doesn't
+	elif vt == VARTYPE.VT_FILETIME:
 		timestamp = int(pvar.filetime.dwLowDateTime)
-		timestamp += int(pvar.filetime.dwLowDateTime) << 32
+		timestamp += int(pvar.filetime.dwHighDateTime) << 32
 		#timestamp is in 100-nanosecond intervals, convert to nanoseconds
 		timestamp *= 100
 		#convert to seconds
@@ -126,7 +125,6 @@ def get_prop_val(fn, forcetype=None, checktype=None):
 		#timestamp is now the number of seconds since Jan 1, 1601 CE
 		jan01_1601 = datetime(year=1601, month=1, day=1)
 		delta = timedelta(seconds=timestamp)
-		import pdb; pdb.set_trace()
 		return jan01_1601 + delta
 		
 		# timestamp isn't guaranteed to be UTC (it isn't on FAT for example)
