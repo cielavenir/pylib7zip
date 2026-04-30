@@ -138,17 +138,24 @@ class FormatProps(IntEnum):
 	kKeepName = 5
 	kSignature = 6
 	kMultiSignature = 7
+	kSignatureOffset = 8
+	kAltStreams = 9
+	kNtSecure = 10
+	kFlags = 11
+	kTimeFlags = 12
 
 class MethodProps(IntEnum):
 	kID = 0
 	kName = 1
 	kDecoder = 2
 	kEncoder = 3
-	kInStreams = 4
-	kOutStreams = 5
+	kPackStreams = 4
+	kUnpackStreams = 5
 	kDescription = 6
 	kDecoderIsAssigned = 7
 	kEncoderIsAssigned = 8
+	kDigestSize = 9
+	kIsFilter = 10
 
 
 def createIID(yy, xx):
@@ -320,13 +327,20 @@ class ArchiveProps(IntEnum):
 
 	userdefined = 0x10000  # kpidUserDefined
 
-class OperationResult(Enum):
+class OperationResult(IntEnum):
 	kOK = 0
-	kUnSupportedMethod = 1
+	kUnsupportedMethod = 1
 	kDataError = 2
 	kCRCError = 3
+	kUnavailable = 4
+	kUnexpectedEnd = 5
+	kDataAfterEnd = 6
+	kIsNotArc = 7
+	kHeadersError = 8
+	kWrongPassword = 9
 
 class AskMode(IntEnum):
 	kExtract = 0
 	kTest = 1
 	kSkip = 2
+	kReadExternal = 3
